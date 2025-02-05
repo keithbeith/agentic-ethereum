@@ -1,6 +1,10 @@
-<a href="https://desam.vercel.app/">
+<a href="https://decentralised-sam.vercel.app/">
   <h1 align="center">Decentralised S.A.M. (Species Assessment Mapper)</h1>
 </a>
+
+<p align="center">
+Submission for Agentic Etheruem.
+</p>
 
 <p align="center">
 A Decentralisd AI Robotic Agent that maps out invasive species and uploads them to the blockchain to avoid censorship.
