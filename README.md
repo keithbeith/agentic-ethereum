@@ -7,7 +7,7 @@ Submission for Agentic Etheruem.
 </p>
 
 <p align="center">
-A Decentralisd AI Robotic Agent that maps out invasive species and uploads them to the blockchain to avoid censorship.
+A Decentralised AI Robotic Agent that maps out invasive species and uploads them to the blockchain to avoid censorship.
 </p>
 
 <p align="center">
