@@ -47,6 +47,22 @@ graph LR;
 
 ## Clone and run locally
 
+### Contracts Instructions
+
+1. Enter the contracts directory and start the local server with:
+
+    ```bash
+    anvil --chain-id 31337 --fork-url https://holesky.drpc.org
+    ```
+
+2. Run the deployment script with:
+
+    ```bash
+    forge script script/DeploySAMServiceManager.sol --rpc-url http://localhost:8545 --broadcast
+    ```
+
+### Frontend Instructions
+
 1. You can now run the Next.js local development server:
 
     ```bash
