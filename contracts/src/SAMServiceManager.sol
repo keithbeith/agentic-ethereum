@@ -6,6 +6,33 @@ import {IAVSDirectory} from "eigenlayer-contracts/src/contracts/interfaces/IAVSD
 import {ECDSA} from "solady/utils/ECDSA.sol";
 
 contract SAMServiceManager {
+    using ECDSA for bytes32;
+
+    // State Variables
+    address public immutable avsDirectory;
+    uint32 public latestTaskNum;
+    mapping(address => bool) public operatorsRegistered;
+    mapping(uint32 => bytes32) public allTaskHashes;
+    mapping(address => mapping(uint32 =>bytes)) public allTaskResponses;
+
+    // Events
+    event NewTaskCreated(uint32 indexed taskIndex, Task task);
+
+    event TaskResponded(
+        uint32 indexed taskIndex,
+        Task task,
+        bytes response,
+        address operator
+    );
+
+    // Types
+    struct Task {
+        string imageUrl;
+        string longitude;
+        string latitude;
+        uint32 taskCreatedBlock;
+    }
+
     // Function to Register Operator
     // Function to Deregister Operator
     // Create Sighting / Task
