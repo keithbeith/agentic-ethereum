@@ -18,8 +18,8 @@ if (!process.env.OPERATOR_KEY) {
 }
 
 const abi = parseAbi([
-    `function respondToTask((string imageUrl, string longitude, string latitude, uint32 taskCreatedBlock) task, uint32 referenceTaskIndex, bytes memory response, bytes memory signature)`,
-    `event NewTaskCreated(uint256 taskId, (string imageUrl, string longitude, string latitude, uint32 taskCreatedBlock) task)`,
+    `function respondToTask((string imageUrl, string longitude, string latitude, uint32 taskCreatedBlock) task, uint32 referenceTaskIndex, uint8 response, bytes memory signature)`,
+    `event NewTaskCreated(uint32 indexed taskIndex, (string imageUrl, string longitude, string latitude, uint32 taskCreatedBlock) task)`,
 ]);
 
 async function createSignature(
@@ -52,7 +52,7 @@ async function respondToTask(
     taskIndex: number
 ) {
     try {
-        // const response = await axios.get
+        // TODO: Get sighting confidence from ML model
         let sightingConfidence = 50;
         const signature = await createSignature(
             account,
@@ -97,4 +97,41 @@ async function main() {
         transport: http("http://localhost:8545"),
         account,
     });
+
+    console.log("Watching for new tasks / sightings...");
+    publicClient.watchEvent({
+        address: contractAddress,
+        event: parseAbiItem(
+            `event NewTaskCreated(uint32 indexed taskIndex, (string imageUrl, string longitude, string latitude, uint32 taskCreatedBlock) task)`
+        ),
+        onLogs: async (logs) => {
+            for (const log of logs) {
+                const { args } = log;
+                if (!args) {
+                    continue;
+                }
+                const taskIndex = Number(args.taskIndex);
+                const task = args.task as Task;
+                console.log("Received new task:", { taskIndex, task });
+
+                await respondToTask(
+                    walletClient,
+                    publicClient,
+                    contractAddress,
+                    account,
+                    task,
+                    taskIndex
+                );
+            }
+        },
+    });
+
+    process.on("SIGINT", () => {
+        console.log("Exiting...");
+        process.exit(0);
+    });
+
+    await new Promise(() => {});
 }
+
+main().catch(console.error);
