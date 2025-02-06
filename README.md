@@ -61,6 +61,20 @@ graph LR;
     forge script script/DeploySAMServiceManager.sol --rpc-url http://localhost:8545 --broadcast
     ```
 
+3. Enter the operator directory under contracts and run the operator respondTask script
+
+    ```bash
+    bun run respondTask.ts
+    ```
+
+4. On a separate terminal, enter the operator directory under contracts and run the createTask script
+
+    ```bash
+      bun run createTask.ts
+    ```
+
+    You should see the `createTask` script create a `createTask` Transacton followed by the `respondTask` script create a `respondToTask` Transaction.
+
 ### Frontend Instructions
 
 1. You can now run the Next.js local development server:
