@@ -8,7 +8,7 @@ if (!process.env.PRIVATE_KEY) {
 }
 
 export type Task = {
-    longitute: string;
+    longitude: string;
     latitude: string;
     imageUrl: string;
     taskCreatedBlock: number;
