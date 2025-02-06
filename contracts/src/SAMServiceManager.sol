@@ -81,4 +81,27 @@ contract SAMServiceManager {
         return newTask;
     }
     // Respond to Sighting / Task
+    function respondToTask(
+        Task calldata task,
+        uint32 referenceTaskIndex,
+        bytes memory response,
+        bytes memory signature
+    ) external onlyOperator {
+        require(keccak256(abi.encode(task)) == allTaskHashes[referenceTaskIndex], "Task hash mismatch: Wrong task");
+        require(allTaskResponses[msg.sender][referenceTaskIndex].length == 0, "Operator has already responded to this task");
+
+        // Verify message with signature
+        bytes32 messageHash = keccak256(abi.encodePacked(response, task.imageUrl, task.longitude, task.latitude));
+        bytes32 ethSignedMessageHash = messageHash.toEthSignedMessageHash();
+        if (ethSignedMessageHash.recover(signature) != msg.sender) {
+            revert("Invalid signature");
+        }
+
+        // Update allTaskResponses mapping with signature
+        allTaskResponses[msg.sender][referenceTaskIndex] = signature;
+
+        // Emit event
+        emit TaskResponded(referenceTaskIndex, task, response, msg.sender);
+
+    }
 }
