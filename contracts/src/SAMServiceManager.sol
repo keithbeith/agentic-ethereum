@@ -44,8 +44,14 @@ contract SAMServiceManager {
         avsDirectory = _avsDirectory;
     }
 
-    // 
     // Function to Register Operator
+    function registerOperatorToAVS(
+        address operator,
+        ISignatureUtils.SignatureWithSaltAndExpiry memory operatorSignature
+    ) external {
+            IAVSDirectory(avsDirectory).registerOperatorToAVS(operator, operatorSignature);
+            operatorsRegistered[operator] = true;
+    }
     // Function to Deregister Operator
     // Create Sighting / Task
     // Respond to Sighting / Task
