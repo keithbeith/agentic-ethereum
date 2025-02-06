@@ -14,4 +14,14 @@ contract DeploySAMServiceManager is Script {
     address internal deployer;
     address internal operator;
     SAMServiceManager samServiceManager;
+
+    // Setup section
+    function setup() public virtual {
+        deployer = vm.rememberKey(vm.envUint("PRIVATE_KEY"));
+        operator = vm.rememberKey(vm.envUint("OPERATOR_KEY"));
+        vm.label(deployer, "Deployer");
+        vm.label(operator, "Operator");
+    }
+
+    // Deploy section
 }
