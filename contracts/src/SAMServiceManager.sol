@@ -33,6 +33,11 @@ contract SAMServiceManager {
         uint32 taskCreatedBlock;
     }
 
+    // Modifier
+    modifier onlyOperator() {
+        require(operatorsRegistered[msg.sender], "Operator not registered");
+        _;
+    }
     // Function to Register Operator
     // Function to Deregister Operator
     // Create Sighting / Task
