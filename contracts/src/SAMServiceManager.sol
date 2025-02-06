@@ -21,7 +21,7 @@ contract SAMServiceManager {
     event TaskResponded(
         uint32 indexed taskIndex,
         Task task,
-        bytes response,
+        uint8 response,
         address operator
     );
 
@@ -84,7 +84,7 @@ contract SAMServiceManager {
     function respondToTask(
         Task calldata task,
         uint32 referenceTaskIndex,
-        bytes memory response,
+        uint8 response,
         bytes memory signature
     ) external onlyOperator {
         require(keccak256(abi.encode(task)) == allTaskHashes[referenceTaskIndex], "Task hash mismatch: Wrong task");
