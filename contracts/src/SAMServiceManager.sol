@@ -52,7 +52,13 @@ contract SAMServiceManager {
             IAVSDirectory(avsDirectory).registerOperatorToAVS(operator, operatorSignature);
             operatorsRegistered[operator] = true;
     }
+
     // Function to Deregister Operator
+    function deregisterOperatorFromAVS(address operator) external onlyOperator {
+        require(msg.sender == operator);
+        IAVSDirectory(avsDirectory).deregisterOperatorFromAVS(operator);
+        operatorsRegistered[operator] = false;
+    }
     // Create Sighting / Task
     // Respond to Sighting / Task
 }
