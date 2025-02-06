@@ -38,6 +38,13 @@ contract SAMServiceManager {
         require(operatorsRegistered[msg.sender], "Operator not registered");
         _;
     }
+
+    // Constructor
+    constructor(address _avsDirectory) {
+        avsDirectory = _avsDirectory;
+    }
+
+    // 
     // Function to Register Operator
     // Function to Deregister Operator
     // Create Sighting / Task
