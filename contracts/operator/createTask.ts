@@ -38,7 +38,11 @@ async function main() {
             address: contractAddress,
             abi,
             functionName: "createNewTask",
-            args: ["https://example.com/image.jpg", "0.0", "0.0"],
+            args: [
+                "https://hagleysbeauty.com/wp-content/uploads/2023/03/test-button-1.jpg",
+                "0.0",
+                "0.0",
+            ],
             account: account.address,
         });
         const hash = await walletClient.writeContract(request);

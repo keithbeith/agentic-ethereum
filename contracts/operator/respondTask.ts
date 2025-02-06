@@ -6,12 +6,12 @@ import {
     encodePacked,
     keccak256,
     parseAbiItem,
-    AbiEvent,
 } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { anvil } from "viem/chains";
 import "dotenv";
 import { Task } from "./createTask";
+import axios from "axios";
 
 if (!process.env.OPERATOR_KEY) {
     throw new Error("OPERATOR_KEY is not defined");
@@ -52,8 +52,38 @@ async function respondToTask(
     taskIndex: number
 ) {
     try {
-        // TODO: Get sighting confidence from ML model
-        let sightingConfidence = 50;
+        let sightingConfidence = 0;
+
+        try {
+            if (!process.env.ROBOFLOW_KEY) {
+                throw new Error("ROBOFLOW_KEY is not defined");
+            }
+            const response = await axios({
+                method: "POST",
+                url: "https://detect.roboflow.com/creeper-plant-detection/1",
+                params: {
+                    api_key: process.env.ROBOFLOW_KEY,
+                    image: task.imageUrl,
+                },
+            });
+
+            if (
+                response.status === 200 &&
+                response.data.predictions &&
+                response.data.predictions.length !== 0
+            ) {
+                // take max of all confidence
+                sightingConfidence = response.data.predictions.reduce(
+                    (max: number, prediction: any) =>
+                        prediction.confidence > max
+                            ? prediction.confidence
+                            : max,
+                    0
+                );
+            }
+        } catch (error) {
+            console.error("Error fetching image from Roboflow", error);
+        }
         const signature = await createSignature(
             account,
             sightingConfidence,
