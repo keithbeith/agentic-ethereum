@@ -59,6 +59,26 @@ contract SAMServiceManager {
         IAVSDirectory(avsDirectory).deregisterOperatorFromAVS(operator);
         operatorsRegistered[operator] = false;
     }
+
     // Create Sighting / Task
+    function createNewTask(
+        string memory imageUrl,
+        string memory longitude,
+        string memory latitude 
+    ) external returns (Task memory) {
+        // Create newTask struct with given parameters
+        Task memory newTask;
+        newTask.imageUrl = imageUrl;
+        newTask.longitude = longitude;
+        newTask.latitude = latitude;
+        newTask.taskCreatedBlock = uint32(block.number);
+
+        // store hash of task onchain, emit event and increment latestTaskNum
+        allTaskHashes[latestTaskNum] = keccak256(abi.encode(newTask));
+        emit NewTaskCreated(latestTaskNum, newTask);
+        latestTaskNum += 1;
+
+        return newTask;
+    }
     // Respond to Sighting / Task
 }
