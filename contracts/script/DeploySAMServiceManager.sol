@@ -24,4 +24,41 @@ contract DeploySAMServiceManager is Script {
     }
 
     // Deploy section
+    function deploy() public virtual {
+        // Deploy SAMServiceManager
+        vm.startBroadcast(deployer);
+        samServiceManager = new SAMServiceManager(AVS_DIRECTORY);
+        vm.stopBroadcast();
+
+        // Register Operator
+        IDelegationManager delegationManager = IDelegationManager(DELEGATION_MANAGER)
+        IDelegationManager.OperatorDetails memory operatorDetails = IDelegationManager.OperatorDetails({
+            earningsReceiver: operator,
+            delegationApprove: address(0),
+            stakerOptOutWindowBlocks: 0
+        })
+
+        vm.startBroadcast(operator);
+        delegationManager.registerOperator(operatorDetails);
+        vm.stopBroadcast();
+
+        // Register Operator to SAM AVS
+        AVSDirectory avsDirectory = AVSDirectory(AVS_DIRECTORY)
+        bytes32 salt = keccak256(abi.encodePacked(block.timestamp, operator));
+        uint256 expiry = block.timestamp + 1 hours;
+
+        bytes32 operatorRegistrationDigestHash = avsDirectory.calculateOperatorAVSRegistrationDigestHash(operator, address(samServiceManager), salt, expiry)
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(vm.envUint("OPERATOR_KEY"), operatorRegistrationDigestHash)
+        bytes memory signature = abi.encodePacked(r, s, v);
+
+        ISignatureUtils.SignatureWithSaltAndExpiry memory operatorSignature = ISignatureUtils.SignatureWithSaltAndExpiry({
+            signature: signature,
+            salt: salt,
+            expiry: expiry
+        })
+
+        vm.startBroadcast(operator);
+        samServiceManager.registerOperatorToAVS(operator, operatorSignature);
+        vm.stopBroadcast();  
+    }
 }
