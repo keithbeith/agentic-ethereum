@@ -32,14 +32,8 @@ contract DeploySAMServiceManager is Script {
 
         // Register Operator
         IDelegationManager delegationManager = IDelegationManager(DELEGATION_MANAGER);
-        IDelegationManager.OperatorDetails memory operatorDetails = IDelegationManager.OperatorDetails({
-            earningsReceiver: operator,
-            delegationApprover: address(0),
-            stakerOptOutWindowBlocks: 0
-        });
-
         vm.startBroadcast(operator);
-        delegationManager.registerAsOperator(operatorDetails, "");
+        delegationManager.registerAsOperator(operator, 0, "");
         vm.stopBroadcast();
 
         // Register Operator to SAM AVS
