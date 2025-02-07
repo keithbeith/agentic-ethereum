@@ -77,10 +77,16 @@ graph LR;
 
 ### Frontend Instructions
 
-1. You can now run the Next.js local development server:
+1. Enter the frontend directory and install the dependencies needed
 
     ```bash
-    npm run dev
+    yarn install
     ```
 
-    The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+2. You can now run the Next.js local development server:
+
+    ```bash
+    yarn dev
+    ```
+
+    The frontend should now be running on [localhost:3000](http://localhost:3000/).
