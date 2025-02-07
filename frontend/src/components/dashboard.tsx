@@ -60,17 +60,17 @@ export const DashboardSection = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {tasks.map((task, index) => (
                     <Card key={index} className="shadow-lg">
+                        <img
+                            src={task.imageUrl || "/placeholder.jpg"}
+                            alt={`Task ${task.taskIndex}`}
+                            className="w-full h-80 object-cover rounded-t-lg mb-4"
+                            width={320}
+                            height={320}
+                        />
                         <CardHeader>
                             <CardTitle>Sighting #{task.taskIndex}</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <img
-                                src={task.imageUrl || "/placeholder.jpg"}
-                                alt={`Task ${task.taskIndex}`}
-                                className="w-full h-80 object-cover rounded-lg mb-4"
-                                width={320}
-                                height={320}
-                            />
                             <p>
                                 <strong>Location:</strong> {task.longitude},{" "}
                                 {task.latitude}
