@@ -136,6 +136,7 @@ function Footer() {
                             </TooltipProvider>
                         </div>
                         <div className="flex items-center space-x-2">
+                            {/* TODO: use next-themes for theming */}
                             <Sun className="h-4 w-4" />
                             <Switch
                                 id="dark-mode"

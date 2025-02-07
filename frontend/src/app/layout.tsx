@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Footerdemo } from "@/components/ui/footer-section";
+import { FloatingNav } from "@/components/ui/floating-navbar";
+import { Home, LayoutGrid } from "lucide-react";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -23,11 +25,24 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const navItems = [
+        {
+            name: "Home",
+            link: "/",
+            icon: <Home className="h-4 w-4 text-primary" />,
+        },
+        {
+            name: "Dashboard",
+            link: "/dashboard",
+            icon: <LayoutGrid className="h-4 w-4 text-primary" />,
+        },
+    ];
     return (
         <html lang="en">
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
+                <FloatingNav navItems={navItems} />
                 {children}
                 <Footerdemo />
             </body>
