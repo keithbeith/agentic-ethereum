@@ -27,9 +27,9 @@ A Decentralised AI Robotic Agent that maps out invasive species and uploads them
 
 ### AVS
 
--   [ ] Create Task / Sightings Structure
--   [ ] Create Task / Sightings Event Emitter
--   [ ] Create Operator Code on Task / Sightings(Run AI Modal)
+-   [x] Create Task / Sightings Structure
+-   [x] Create Task / Sightings Event Emitter
+-   [x] Create Operator Code on Task / Sightings(Run AI Modal)
 
 ### Frontend
 
