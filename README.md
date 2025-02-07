@@ -33,7 +33,8 @@ A Decentralised AI Robotic Agent that maps out invasive species and uploads them
 
 ### Frontend
 
--   [ ] View Sightings with Location and Image
+-   [x] View Sightings with Location and Image
+-   [ ] Map view of Sightings
 -   [ ] Vote for whether it's correct
 
 ## Diagrams
