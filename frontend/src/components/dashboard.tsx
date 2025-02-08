@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { createPublicClient, http, parseAbiItem } from "viem";
 import { anvil } from "viem/chains";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "./ui/button";
 
 const contractAddress = "0x121f7e412A536D673DaB310F1448ce0e3843068a"; // Replace with your contract address
 
@@ -86,6 +87,7 @@ export const DashboardSection = () => {
                                     {task.operator?.slice(-4)}
                                 </span>
                             </p>
+                            <Button className="mt-4">Vote</Button>
                         </CardContent>
                     </Card>
                 ))}
