@@ -7,6 +7,7 @@ import {
   cdpApiActionProvider,
   cdpWalletActionProvider,
   pythActionProvider,
+  ViemWalletProvider,
 } from "@coinbase/agentkit";
 import { getLangChainTools } from "@coinbase/agentkit-langchain";
 import { HumanMessage } from "@langchain/core/messages";
@@ -16,6 +17,12 @@ import { ChatOpenAI } from "@langchain/openai";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as readline from "readline";
+import { sightingActionProvider } from "./sightingActionProvider";
+
+// Viem-related imports for wallet management
+import { createWalletClient, http } from "viem";
+import { hardhat } from "viem/chains";
+import { privateKeyToAccount } from "viem/accounts";
 
 dotenv.config();
 
@@ -69,27 +76,11 @@ async function initializeAgent() {
       model: "gpt-4o-mini",
     });
 
-    let walletDataStr: string | null = null;
+    // Configure Viem Wallet Provider
+    const account = privateKeyToAccount(process.env.PRIVATE_KEY as `0x${string}`);
+    const client = createWalletClient({ account, chain: hardhat, transport: http() });
 
-    // Read existing wallet data if available
-    if (fs.existsSync(WALLET_DATA_FILE)) {
-      try {
-        walletDataStr = fs.readFileSync(WALLET_DATA_FILE, "utf8");
-      } catch (error) {
-        console.error("Error reading wallet data:", error);
-        // Continue without wallet data
-      }
-    }
-
-    // Configure CDP Wallet Provider
-    const config = {
-      apiKeyName: process.env.CDP_API_KEY_NAME,
-      apiKeyPrivateKey: process.env.CDP_API_KEY_PRIVATE_KEY?.replace(/\\n/g, "\n"),
-      cdpWalletData: walletDataStr || undefined,
-      networkId: process.env.NETWORK_ID || "base-sepolia",
-    };
-
-    const walletProvider = await CdpWalletProvider.configureWithWallet(config);
+    const walletProvider = new ViemWalletProvider(client);
 
     // Initialize AgentKit
     const agentkit = await AgentKit.from({
@@ -107,6 +98,7 @@ async function initializeAgent() {
           apiKeyName: process.env.CDP_API_KEY_NAME,
           apiKeyPrivateKey: process.env.CDP_API_KEY_PRIVATE_KEY?.replace(/\\n/g, "\n"),
         }),
+        sightingActionProvider(),
       ],
     });
 
@@ -133,10 +125,6 @@ async function initializeAgent() {
         restating your tools' descriptions unless it is explicitly requested.
         `,
     });
-
-    // Save wallet data
-    const exportedWallet = await walletProvider.exportWallet();
-    fs.writeFileSync(WALLET_DATA_FILE, JSON.stringify(exportedWallet));
 
     return { agent, config: agentConfig };
   } catch (error) {

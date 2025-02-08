@@ -4,7 +4,7 @@ import { createPublicClient, http, parseAbiItem } from "viem";
 import { anvil } from "viem/chains";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const contractAddress = "0x8EB5A8B9732022F20ab4d3128DDf3a50a6dAa7A2"; // Replace with your contract address
+const contractAddress = "0x121f7e412A536D673DaB310F1448ce0e3843068a"; // Replace with your contract address
 
 type Task = {
     taskIndex: number;
@@ -31,7 +31,7 @@ export const DashboardSection = () => {
                     event: parseAbiItem(
                         "event TaskResponded(uint32 indexed taskIndex, (string imageUrl, string longitude, string latitude, uint32 taskCreatedBlock) task, uint8 response, address operator)"
                     ), // Parse the event from ABI
-                    fromBlock: 3300290n, // Adjust if needed
+                    fromBlock: 3308630n, // Adjust if needed
                     toBlock: "latest",
                 });
                 console.log("logs", logs);

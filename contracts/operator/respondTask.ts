@@ -114,7 +114,7 @@ async function respondToTask(
 }
 
 async function main() {
-    const contractAddress = "0x8EB5A8B9732022F20ab4d3128DDf3a50a6dAa7A2";
+    const contractAddress = "0x121f7e412A536D673DaB310F1448ce0e3843068a";
     const account = privateKeyToAccount(
         process.env.OPERATOR_KEY as `0x${string}`
     );
