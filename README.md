@@ -17,26 +17,6 @@ A Decentralised AI Robotic Agent that maps out invasive species and uploads them
 </p>
 <br/>
 
-## TODO
-
-### AI Agent (AgentKit)
-
--   [ ] Initialise Repo
--   [ ] Upload Image to IPFS
--   [ ] Create Tasks / Sightings for AVS (Upload location + IPFS Hash)
-
-### AVS
-
--   [x] Create Task / Sightings Structure
--   [x] Create Task / Sightings Event Emitter
--   [x] Create Operator Code on Task / Sightings(Run AI Modal)
-
-### Frontend
-
--   [x] View Sightings with Location and Image
--   [ ] Map view of Sightings
--   [ ] Vote for whether it's correct
-
 ## Diagrams
 
 ```mermaid
