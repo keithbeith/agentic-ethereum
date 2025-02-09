@@ -20,7 +20,7 @@ A Decentralised AI Robotic Agent that maps out invasive species and uploads them
 
 ```mermaid
 graph LR;
-    A[AI Agent] -->|Creates Task| B[AVS Contract on Base];
+    A[AI Agent] -->|Creates Task| B[AVS Contract on Eth];
     B -->|Sends Image Data| C[Operator];
     D[Frontend] -->|User Interaction| B;
 ```
