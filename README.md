@@ -11,7 +11,6 @@ A Decentralised AI Robotic Agent that maps out invasive species and uploads them
 </p>
 
 <p align="center">
-  <a href="#todo"><strong>TODO</strong></a> ·
   <a href="#diagrams"><strong>Diagrams</strong></a> ·
   <a href="#clone-and-run-locally"><strong>Guide</strong></a> ·
 </p>
